@@ -36,6 +36,16 @@ else
       document.querySelector("a[href='accountstatement.htm']").click();
     }
 
+    var checkIfLoggedIn = function()
+    {
+      if(document.querySelector("p.errormsg") != null)
+      {
+        return document.querySelector("p.errormsg").innerText;
+      }
+
+      return false;
+    }
+
     var fillStatementInfo = function(incr)
     {
       document.querySelector('input[name=startdate]').value = moment().subtract(6*(incr+1), 'months').add(1, 'days').format('DD/MM/YYYY');
@@ -71,6 +81,16 @@ else
         case "https://retail.onlinesbi.com/retail/mypage.htm":
           page.evaluate(goToAccountStatement);
           return;
+          break;
+        case "https://retail.onlinesbi.com/retail/loginsubmit.htm":
+          var checkError = page.evaluate(checkIfLoggedIn);
+          if(checkError)
+            console.log(checkError);
+          else
+            console.log('Error occurred. Please try again.');
+          break;
+        case "https://retail.onlinesbi.com/retail/errorpage.htm":
+          console.log('Session expired. Please login again');
           break;
         case "https://retail.onlinesbi.com/retail/accountstatement.htm":
           if(incr < period)
