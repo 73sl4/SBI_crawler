@@ -2,7 +2,7 @@ var page = require('webpage').create(),
     system = require('system'),
     moment = require('./node_modules/moment/moment.js');
 
-if (system.args.length < 4 || system.args.length > 5) {
+if (system.args.length < 3 || system.args.length > 5) {
     console.log('Usage: sbi.js <username> <password> <month_in_multiple_of_6>');
     console.log('Options: -v : Debug');
     phantom.exit(1);
@@ -11,7 +11,9 @@ else
 {
     uname   = system.args[1];
     pass    = system.args[2];
-    period  = Math.ceil(system.args[3]/6);
+    months  = system.args[3] || 12;
+    period  = Math.ceil(months/6);
+
     var debug = false;
 
     if(system.args[4] == '-v')
